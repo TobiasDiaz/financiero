@@ -1,0 +1,140 @@
+{% extends "Shared/shared3.html" %}
+{% load staticfiles %}
+{% load mathfilters %}
+
+{% block titulo %}Estado de Capital{% endblock titulo %}
+
+
+{% block mensaje %}
+
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Estado de Capital</h2>
+<h2 class="page-title">Del 1 al {{lday}} de {{mes}} del {{year}}</h2>
+
+<a class="btn btn-primary btn-lg" href="{% url 'contable:estadoDeCapital_inversiones' %}">Guardar Estado de Capital Inversiones</a>
+<br>
+<br>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:estadoDeCapital_desinversiones' %}">Guardar Estado de Capital Desinversiones</a>
+<br><br>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:estadoDeCapital_total' %}">Guardar Estado de Capital Total</a>
+  
+{% endblock mensaje %}
+
+{% block contenido %}
+
+<section class="content-section-b">
+
+      <div class="container">
+
+      {% if cuentasA %}
+        <table class="table table-bordered">
+        <thead class="info">
+        <tr class="info">
+        <th colspan="2">Inversiones</th>
+        </tr>
+        <tr class="info">
+        <th>Cuenta</th>
+        <th>Monto</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cuentasA in cuentasA %}
+        <tr style="background-color: white;">
+          <td>{{cuentasA.cuenta.nombre}}</td>
+          <td>&nbsp;$&nbsp;{{cuentasA.cuenta.totalCuenta|floatformat:2}}</td>
+        </tr>
+          
+        {% endfor %}
+        <tr style="background-color:white;">
+        <td>Utilidades a invertir(&nbsp;Politica de {{capitalP.cantidad|floatformat:2}} %&nbsp;)</td>
+        <td>&nbsp;$&nbsp;{{utilidadI|floatformat:2}}&nbsp;</td>
+        </tr>
+        <tr class="danger">
+        <td >Total de Inversiones</td>
+        <td >&nbsp;$&nbsp;{{totalI|floatformat:2}}</td>
+        </tr>   
+        </tbody>
+        </table>
+      {% else %}
+        <table class="table table-bordered">
+        <thead class="info">
+        <tr class="info">
+        <th colspan="2">No hay inversiones actualmente.</th>
+        </tr>
+        </thead>
+        <tbody> 
+        <tr class="danger">
+        <td >Total de Inversiones</td>
+        <td >&nbsp;$&nbsp;{{totalI|floatformat:2}}</td>
+        </tr>  
+        </tbody>
+        </table>
+        
+      {% endif %}
+
+      <br>
+      <br>
+      <br>
+
+      {% if cuentasD %}
+        <table class="table table-bordered">
+        <thead class="info">
+        <tr class="info">
+        <th colspan="2">Desinversiones</th>
+        </tr>
+        <tr class="info">
+        <th>Cuenta</th>
+        <th>Monto</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cuentasD in cuentasD %}
+        <tr style="background-color:white;">
+          <td>{{cuentasD.cuenta.nombre}}</td>
+          <td>(&nbsp;$&nbsp;{{cuentasD.cuenta.totalCuenta|floatformat:2}}&nbsp;)</td>
+        </tr>
+          
+        {% endfor %}
+        <tr class="danger">
+        <td >Total de Desinversiones</td>
+        <td >(&nbsp;$&nbsp;{{totalD|floatformat:2}}&nbsp;)</td>
+        </tr>   
+        </tbody>
+        </table>
+      {% else %}
+        <table class="table table-bordered">
+        <thead class="info">
+        <tr class="info">
+        <th colspan="2">No hay desinversiones actualmente.</th>
+        </tr>
+        </thead>
+        <tbody> 
+        <tr class="danger">
+        <td >Total de Desinversiones</td>
+        <td >(&nbsp;$&nbsp;{{totalD|floatformat:2}}&nbsp;)</td>
+        </tr>  
+        </tbody>
+        </table>
+        
+      {% endif %}
+
+      <table class="table table-bordered">
+        <thead class="info">
+        <tr class="info">
+        <th colspan="2"></th>
+        </tr>
+        </thead>
+        <tbody> 
+        <tr class="warning">
+        <td >{{capital.nombre}}</td>
+        <td >&nbsp;$&nbsp;{{capital.totalCuenta|floatformat:2}}&nbsp;</td>
+        </tr>  
+        </tbody>
+        </table>
+
+       </div>
+     
+
+    </section>
+	
+{% endblock contenido %}

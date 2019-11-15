@@ -1,0 +1,111 @@
+
+{% extends "Shared/shared3.html" %}
+{% load staticfiles %}
+{% block titulo %}Planilla de Pago{% endblock %}
+{% block mensaje %}
+
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Planilla de Pago</h2>
+
+{% if user.is_superuser %}
+<a class="btn btn-primary"   href="/admin/contables/empleado/add/">Agregar Empleado</a>
+<a class="btn btn-primary"   href="/admin/contables/empleado/">Gestionar Empleados</a>
+
+{% else %}
+
+{% for grupo in grupo %}
+
+{% if grupo.user_id == user.id %}
+
+{% if grupo.name == "Contador" %}
+{% endif %}
+
+
+{% if grupo.name == "Gerente" %}
+<a class="btn btn-primary"   href="/admin/contables/empleado/add/">Agregar Empleado</a>
+<a class="btn btn-primary"   href="/admin/contables/empleado/">Gestionar Empleados</a>
+{% endif %} 
+
+                             
+{% endif %} 
+
+{% endfor %} 
+
+{% endif %}
+
+
+    
+{% endblock mensaje %}
+{% block contenido %}
+
+ 
+    
+    
+    <div class="divider"></div>
+      <table class="table table-bordered" >
+            {% if empleados %}
+                    
+                    <thead>
+
+                    <tr class="info">
+                        <th data-field="Idempleado">ID</th>
+                        <th data-field="nombre">Nombre</th>
+                        <th data-field="apellidos">Apellidos</th>
+                        <th data-field="cargo">Cargo</th>
+                        <th data-field="SalarioNominal">Salario Nominal</th>
+                        <th data-field="SalarioReal">Salario Real</th>
+                        <th >Acciones</th>
+                    </tr>
+                    </thead>
+
+
+                    {%for empleado in empleados.object_list %}
+                  
+
+                    <tbody>
+                        <tr style="background-color: white;">
+                            <td>{{empleado.id}}</td>
+                            <td>{{empleado.nombres}}</td>
+                            <td>{{empleado.apellidos}}</td>
+                            <td>{{empleado.puesto.nombre}}</td>
+                            <td>${{empleado.puesto.get_salario_nominal|floatformat:"2"}}</td>
+                            <td>${{empleado.puesto.get_salario_real|floatformat:"2"}}</td>
+                            
+                           <td><a class="btn btn-info" href="{% url 'contable:detalle_empleado' empleado.pk %}">Detalle empleado</a></td>
+                            
+                        </tr>
+                    
+                    </tbody>
+                    {%endfor%}
+                </table>
+
+<div class="row text-center" >
+    <div class="col-lg-12">
+        <ul class="pagination">
+        {% if empleados.has_previous %}
+        <li><a href="?page={{ empleados.previous_page_number }}&#empleados">Anterior</a></li>
+        {% endif %}
+        {% for pg in empleados.paginator.page_range %}
+            {% if empleados.number == pg %}
+            <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+            {% else %}
+            <li><a href="?page={{ pg }}&#empleados">{{ pg }}</a></li>
+            {% endif %}
+        {% endfor%}
+        {% if empleados.has_next %}
+        <li><a href="?page={{ empleados.next_page_number }}&#empleados">Siguiente</a></li>
+        {% endif %}
+        </ul>
+    </div>
+</div>
+
+
+                
+
+	
+            {% else %}
+                <h6>No hay empleados</h6>
+            {% endif %}
+
+ 
+    {% endblock contenido %}

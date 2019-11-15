@@ -1,0 +1,48 @@
+{% extends 'Shared/shared2.html' %}
+{% load staticfiles %}
+
+{% block titulo %}Estado de resultado Egresos Guardar{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1>Estado de resultado Egresos</h1>
+<h2>Procesadora de Cacao</h2>
+<h2>Del 1 al {{lday}} de {{mes}} del {{year}}</h2>
+<br><br><br>
+  
+{% endblock mensaje %}
+{% block contenido %}
+  
+
+
+{% block tituloTabla %}
+
+<th class="info">Cuenta</th>
+        <th class="info">Monto</th>
+  
+{% endblock tituloTabla %}
+
+{% block pieTabla %}
+
+<th class="info">Cuenta</th>
+        <th class="info">Monto</th>
+  
+{% endblock pieTabla %}
+
+{% block filaTabla %}
+
+{% for cuentasD in cuentasD %}
+        <tr style="background-color: white">
+          <td>{{cuentasD.cuenta.nombre}}</td>
+          <td>(&nbsp;$&nbsp;{{cuentasD.cuenta.totalCuenta|floatformat:2}}&nbsp;)</td>
+        </tr>
+          
+        {% endfor %}
+        <tr class="danger">
+        <td >Total de Egresos</td>
+        <td >(&nbsp;$&nbsp;{{totalE|floatformat:2}}&nbsp;)</td>
+        </tr>   
+
+{% endblock filaTabla %}
+
+{% endblock contenido %}

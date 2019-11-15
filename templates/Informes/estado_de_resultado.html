@@ -1,0 +1,133 @@
+{% extends 'Shared/shared.html' %}
+
+{% block extra_scripts %}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'main/js/scripts.js' %}"></script>
+{% endblock %}
+
+
+{% block titulo %}Estado de Resultados{% endblock %}
+      {% block TituloPagina %}
+      <div class="container">
+        <div class="intro-message">
+          
+          <h2>Procesadora de Cacao</h2>
+          
+          {% endblock TituloPagina %}
+
+{% block contenido %}
+    <main>
+        <div class="container">
+            <div class="col m12">
+                <div class="card-panel" >
+                    <div >
+                        
+                        <h6  class="center-align">Estado de Resultado</h6>
+                        <h6  class="center-align">Del 1 al 30 de noviembre</h6>
+                    </div>
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col m6">
+
+                            <table id="egresos" class="highlight">
+                                <thead>
+                                <tr>
+                                    <th data-field="tipo"><ins>Egreso</ins></th>
+                                    <th data-field="debe"><ins>Debe</ins></th>
+                                    <th data-field="haber"><ins>Haber</ins></th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+
+                               
+                                {%for debe in resultadoDebe%}
+                                <tr>
+                                    <td>{{debe.nombre}}</td>
+                                    <td id="deber" class="deber">{{debe.saldoFinal}}</td>
+                                    <td ></td>
+                                </tr>
+                                {%endfor%}
+                                <tr>
+                                    <td>Total Gastos</td>
+                                     <td id="totalgastos"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            </table>
+
+                           
+
+
+                        </div><!-- fin de la primera tabla-->
+                        <div class="col m6">
+
+                            <table id="ingresos" class="highlight">
+                                <thead>
+                                <tr>
+                                    <th data-field="tipo"><ins>Ingreso</ins></th>
+                                    <th data-field="debe"><ins>Debe</ins></th>
+                                    <th data-field="haber"><ins>Haber</ins></th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {%for haber in resultadoHaber%}
+                                <tr>
+                                    <td>{{haber.nombre}}</td>
+                                    <td ></td>
+                                    <td id="haber" class="haber">{{haber.saldoFinal}}</td>
+                                </tr>
+                                {%endfor%}
+                                <tr>
+                                    <td>Total de Ingresos: ($):</td>
+                                    <td></td>
+                                    <td id="totalingresos"></td>
+                                </tr>
+                               
+                              
+                                </tbody>
+                            </table><!-- fin de la segunda tabla-->
+                            </table>
+
+                            <div class="row">
+
+                            <div class="#e0e0e0 grey lighten-2">Utilidades</div><ul id="total" class="col s1"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+{#            <a class="waves-effect waves-light btn right #d50000 red accent-4"><i class="material-icons left">picture_as_pdf</i>Exportar</a>#}
+        </div>
+    </main>
+{% endblock %}
+ {% block javascript %}
+
+
+var total=0;
+var total1=0;
+var filas=$("#egresos tbody tr").length;
+var suma=0;
+var suma1=0;
+
+$('#egresos tbody tr').each(function(){
+total1+= parseInt($(this).find('td').eq(1).text()||0,10)}
+)
+$("#totalgastos").html(total1);
+
+
+$('#ingresos tbody tr').each(function(){
+total+= parseInt($(this).find('td').eq(2).text()||0,10)}
+)
+$("#totalingresos").html(total);
+
+
+
+
+$("#total").html(total-total1);
+
+    {% endblock %}

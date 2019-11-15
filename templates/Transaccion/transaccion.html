@@ -1,0 +1,137 @@
+{% extends 'Shared/shared3.html' %}
+{% load staticfiles %}
+
+{% block titulo %}Movimiento B{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Transaccion</h2>
+<h4 style="color:red;" class="page-title">{{mensaje}}</h4>
+  
+{% endblock mensaje %}
+
+{% block contenido %}
+
+<div class="container" >
+<div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading"> Movimientos</div>
+                            <div class="panel-wrapper collapse in" aria-expanded="true">
+                                <div class="panel-body">
+                                    <form method="post" class="form-horizontal form-bordered">
+                                    {% csrf_token %}
+                                        <div class="form-body">
+                                        <div class="form-group">
+                                                <label class="control-label col-md-3">Empleado</label>
+                                                <div class="col-md-9">
+          <select class="form-control" required id="empleado" name="empleado">
+          {% if empleado %}
+          {% for empleado in empleado %}
+          <option value="{{empleado.id}}">{{empleado.nombres|capfirst}}</option> 
+          {% endfor %}
+          {% else %}
+          <option >No hay empleado en la base</option>
+          {% endif %}
+          </select>
+                                                    <span class="help-block"> Seleccione el empleado actual. </span> </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tipo de Transaccion</label>
+                                                <div class="col-md-9">
+          <select class="form-control" required id="tipo" name="tipo">
+          {% if tipoT %}
+          {% for tipoT in tipoT %}
+          <option value="{{tipoT.id}}">{{tipoT.nombre|capfirst}}</option> 
+          {% endfor %}
+          {% else %}
+          <option >No hay tipo de transaccion en la base</option>
+          {% endif %}
+          </select>
+
+                                                    <span class="help-block"> Seleccione la transaccion actual actual. </span> </div>
+                                            </div>
+
+            <div class="form-group">
+                                                <label class="control-label col-md-3">Breve Descripcion</label>
+                                                <div class="col-md-9">
+                                                    <textarea class="form-control" placeholder="Ingresa tu mensaje" required class="form-control" rows="5" id="descripcion" name="descripcion"></textarea> <span class="help-block"> Descripcion de la transaccion actual. </span> </div>
+                                            </div>
+
+            {% for canti in canti %}
+            <div class="form-group">
+                                                <label class="control-label col-md-3">Elija la cuenta deseada {{forloop.counter}}</label>
+                                                <div class="col-md-9">
+          <select class="form-control" required id="cuenta{{forloop.counter}}" name="cuenta{{forloop.counter}}">
+          {% if cuenta %}
+          {% for cuenta in cuenta %}
+          <option value="{{cuenta.id}}">{{cuenta.nombre|capfirst}}</option> 
+          {% endfor %}
+          {% else %}
+          <option >No hay cuenta en la base</option>
+          {% endif %}
+          </select>
+
+                                                    <span class="help-block"> Seleccione la cuenta {{forloop.counter}}. </span> </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Movimiento de tipo</label>
+                                                <div class="col-md-9">
+                                                    <div class="radio-list">
+                                                        <label>
+                                                            <input type="radio" name="tipo{{forloop.counter}}" value="1" required> Debe </label>
+                                                        <label>
+                                                            <input type="radio" name="tipo{{forloop.counter}}" value="0" required=""> Haber </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Cantidad $</label>
+                                                <div class="col-md-9">
+                                                    <input type="number" name="saldo{{forloop.counter}}" required step="0.01" placeholder="47.25" class="form-control" min="0.01"> <span class="help-block"> ¿Monto involuncrado en la cuenta {{forloop.counter}}?</span> </div>
+                                            </div>
+                                            <br>
+
+              
+                                        </div>
+
+
+
+            {% endfor %}
+
+
+                                            
+
+              
+                                        </div>
+                                        <div class="form-actions">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-offset-3 col-md-9">
+                                                            <button class="btn btn-success" type="submit"> Iniciar Tranaccion</button>
+                                                            
+                                              
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+  
+	
+{% endblock contenido %}

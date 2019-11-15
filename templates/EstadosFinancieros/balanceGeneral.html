@@ -1,0 +1,169 @@
+{% extends "Shared/shared3.html" %}
+{% load staticfiles %}
+{% load mathfilters %}
+
+
+{% block titulo %}Balance General{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Balance General</h2>
+<h2 class="page-title">Al {{lday}} de {{mes}} del {{year}}</h2>
+
+<a class="btn btn-primary btn-lg" href="{% url 'contable:balanceGeneral_activo' %}">Guardar Balance General Activo</a>
+<br>
+<br>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:balanceGeneral_pasivo' %}">Guardar Balance General Pasivo</a>
+<br><br>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:balanceGeneral_total' %}">Guardar Balance General Total </a>
+
+{% endblock %}
+
+{% block contenido %}
+
+
+<section class="content-section-b">
+
+      <div class="container">
+
+      {% if cuentasA %}
+        <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+        <th colspan="2">Activos</th>
+        </tr>
+        <tr class="info">
+        <th>Cuenta</th>
+        <th>Monto</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cuentasA in cuentasA %}
+        {% if cuentasA.cuenta.totalCuenta == 0 %}
+        {% else %}
+        {% if cuentasA.cuenta.acreedor %}
+        <tr style="background-color:white">
+          <td>{{cuentasA.cuenta.nombre}}</td>
+          <td>&nbsp;(&nbsp;$&nbsp;{{cuentasA.cuenta.totalCuenta|floatformat:2}}&nbsp;)</td>
+        </tr>
+        {% else %}
+        <tr style="background-color:white">
+          <td>{{cuentasA.cuenta.nombre}}</td>
+          <td>&nbsp;$&nbsp;{{cuentasA.cuenta.totalCuenta|floatformat:2}}</td>
+        </tr>
+            
+        {% endif %}
+            
+        {% endif %}          
+        {% endfor %}
+        <tr class="danger">
+        <td >Total de Activos</td>
+        <td >&nbsp;$&nbsp;{{totalA|floatformat:2}}</td>
+        </tr>   
+        </tbody>
+        </table>
+      {% else %}
+        <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+        <th colspan="2">No hay activos actualmente.</th>
+        </tr>
+        </thead>
+        <tbody> 
+        <tr>
+        <td >Total de Activos</td>
+        <td >&nbsp;$&nbsp;{{totalA|floatformat:2}}</td>
+        </tr>  
+        </tbody>
+        </table>
+        
+      {% endif %}
+
+      <br>
+      <br>
+      <br>
+
+      {% if cuentasP %}
+        <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+        <th colspan="2">Participaciones</th>
+        </tr>
+        <tr class="info">
+        <th colspan="2">Pasivos</th>
+        </tr>
+        <tr class="info">
+        <th>Cuenta</th>
+        <th>Monto</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cuentasP in cuentasP %}
+        {% if cuentasP.cuenta.totalCuenta == 0 %}
+        {% else %}
+        <tr style="background-color:white">
+          <td>{{cuentasP.cuenta.nombre}}</td>
+          <td>&nbsp;$&nbsp;{{cuentasP.cuenta.totalCuenta|floatformat:2}}&nbsp;</td>
+        </tr>
+            
+        {% endif %}
+          
+        {% endfor %}
+        <tr>
+        <td style="background-color: #dba80f;">Total de Pasivos</td>
+        <td style="background-color: #dba80f;">&nbsp;$&nbsp;{{totalP|floatformat:2}}&nbsp;</td>
+        </tr> 
+        <thead>
+        <tr>
+        <th colspan="2" class="info">Capital</th>
+        </tr>
+        <tr class="info">
+        <th>Cuenta</th>
+        <th>Monto</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>{{capital.nombre}}</td>
+            <td>&nbsp;$&nbsp;{{capital.totalCuenta|floatformat:2}}</td>
+        </tr>
+        <tr style="background-color:white">
+            <td>Utilidades Retenidas del Periodo (&nbsp;Politica de {{por}}%&nbsp;)</td>
+            <td>&nbsp;$&nbsp;{{utilidadR|floatformat:2}}</td>
+        </tr>
+        <tr>
+        <td style="background-color: #dba80f;">Total de Capital</td>
+        <td style="background-color: #dba80f;">&nbsp;$&nbsp;{{totalK|floatformat:2}}&nbsp;</td>
+        </tr>
+        <tr class="danger">
+        <td >Total de Participaciones</td>
+        <td >&nbsp;$&nbsp;{{totalPar|floatformat:2}}</td>
+        </tr>  
+        </tbody>
+        </table>
+      {% else %}
+        <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+        <th colspan="2">No hay Pasivos actualmente.</th>
+        </tr>
+        </thead>
+        <tbody> 
+        <tr class="danger">
+        <td >Total de Pasivos</td>
+        <td >&nbsp;$&nbsp;{{totalP|floatformat:2}}&nbsp;</td>
+        </tr>  
+        </tbody>
+        </table>
+        
+      {% endif %}
+
+       </div>
+     
+
+    </section>
+
+
+
+	
+{% endblock contenido %}

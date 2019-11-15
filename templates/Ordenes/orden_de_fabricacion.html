@@ -1,0 +1,164 @@
+{% extends 'Shared/shared3.html' %}
+
+{% load staticfiles %}
+{% block titulo %}Ordenes de Fabricacion{% endblock titulo %}
+
+{% block mensaje %}
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Ordenes de Fabricacion</h2>
+
+{% if user.is_superuser %}
+
+<a class="btn btn-primary"   href="/admin/contables/ordendefabricacion/add/">Agregar Ordenes</a>
+<a class="btn btn-primary"   href="/admin/contables/ordendefabricacion/">Gestionar Ordeness</a>
+
+{% else %}
+
+{% for grupo in grupo %}
+
+{% if grupo.user_id == user.id %}
+
+{% if grupo.name == "Contador" %}
+<a class="btn btn-primary"   href="/admin/contables/ordendefabricacion/add/">Agregar Ordenes</a>
+{% endif %}
+
+
+{% if grupo.name == "Gerente" %}
+<a class="btn btn-primary"   href="/admin/contables/ordendefabricacion/">Gestionar Ordeness</a>
+{% endif %} 
+
+                             
+{% endif %} 
+
+{% endfor %} 
+
+{% endif %}
+
+
+
+    
+{% endblock mensaje %}
+
+{% block contenido %}
+    
+
+	<div class="container">
+            
+
+            <br>
+            <br>
+            <div class="divider"></div>
+            {% if object_list %}
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="info">
+                        <th data-field=" Cliente">Cliente</th>
+                        <th data-field=" numero">No orden</th>
+                        <th data-field="material">Material</th>
+                        <th data-field="canridad">Cantidad</th>
+                        <th data-field="costoUnitario">Costo Unitario</th>
+                        <th data-field="total">Total</th>
+                        <th data-field="empleado">Empleado</th>
+                        <th data-field="horas">#Horas</th>
+                        <th data-field="costohoras">Costo/hora</th>
+                        <th data-field="totalMO">Total MOD</th>
+                        <th data-field="CIF">CIF</th>
+                        <th data-field="importe">Impoprte CIF</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for orden in object_list%}
+                        <tr style="background-color: white;">
+                            <td>{{orden.cliente.nombre}}</td>
+                            <td>{{orden.numOrden}}</td>
+                            <td>{{orden.materal}}</td>
+                            <td>{{orden.catidadMP}}</td>
+                            <td>${{orden.costoUnitarioMP}}</td>
+                            <td>${{orden.totalMP}}</td>
+                            <td>{{orden.obrero.nombres}}</td>
+                            <td>{{orden.numHoras}}</td>
+                            <td>${{orden.costoHora}}</td>
+                            <td>${{orden.totalMOD}}</td>
+                            <td>{{orden.tasaCIF}}</td>
+                            <td>${{orden.importe}}</td>
+                        </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+            {% else %}
+                <h6>No hay Ordenes</h6>
+            {% endif %}
+<br><br>
+ <div id="container1" style="min-width: 310px; height: 400px; margin-bottom: 100px;"></div></div>
+ <script type="text/javascript">
+Highcharts.chart('container1', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Costo vs Orden de fabricacion'
+    },
+    subtitle: {
+        text: ' {{titulo}}'
+    },
+    xAxis: {
+        categories: [
+        {% for orden in object_list %}
+        	'{{producto.ordenDeFabricacion.pk}}',
+        {% endfor %}
+            
+            
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Rainfall (mm)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Materia prima',
+        data : [
+                        {% for orden in object_list %}
+                            {{ orden.totalMP|floatformat:"2" }},
+                        {% endfor %}],
+
+    }, {
+        name: 'Mano de Obra',
+        data : [
+                        {% for orden in object_list %}
+                            {{ orden.totalMOD|floatformat:"2" }},
+                        {% endfor %}],
+
+    }, {
+        name: 'CIF',
+        data : [
+                        {% for orden in object_list %}
+                            {{ orden.importe|floatformat:"2" }},
+                        {% endfor %}],
+
+    }]
+});
+   
+ </script>
+{% endblock contenido %}
+
+{% block JSGrafico %}
+	<script src="{% static 'js/highcharts.js' %}"></script>
+	<script src="{% static 'js/exporting.js'%}"></script>
+{% endblock JSGrafico %}

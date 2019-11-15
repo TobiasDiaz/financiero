@@ -1,0 +1,49 @@
+{% extends 'Shared/shared.html' %}
+
+{% block titulo %}
+    Agregar Producto
+{% endblock %}
+
+{% block contenido %}
+
+
+    <main>
+        <div class="container">
+            <form method="post">
+                <h1>Agregar Producto</h1>
+                <div class="divider"></div>
+                <br>
+                <br>
+                <br>
+                <br>
+{{ form.errors }}
+                {% csrf_token %}
+                <div class="row">
+                    <div class="input-field col s4">
+                        {{ form.nombre }}
+                        <label class="active " for="{{ form.nombre.id_for_label }}" >Nombre del Producto</label>
+                    </div>
+
+                    <div class="input-field col s4">
+                        {{ form.ordenDeFabricacion }}
+                        <label class="active " for="{{ form.ordenDeFabricacion.id_for_label }}" >Seleccionar Orden de Fabricacion</label>
+                    </div>
+                    <div class="input-field col s4">
+                        {{ form.nuneroArticulos }}
+                        <label class="active " for="{{ form.nuneroArticulos.id_for_label }}" >Numero de articulos a elaborar</label>
+                    </div>
+                </div>
+
+
+
+
+
+                <button class="btn waves-effect waves-light #2e7d32 green darken-3" type="submit" name="action" >Agregar <i class="material-icons right">send</i>
+                </button>
+                <a class="waves-effect waves-light btn #e53935 red darken-1" href="{% url 'contable:produccion' %}"><i class="material-icons right">clear_all</i>Cancelar</a>
+            </form>
+
+        </div>
+    </main>
+
+{% endblock %}

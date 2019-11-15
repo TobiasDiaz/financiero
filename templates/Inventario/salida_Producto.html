@@ -1,0 +1,64 @@
+{% extends "Shared/shared3.html" %}
+{% block titulo %}Salida de producto{% endblock titulo %}
+
+{% block mensaje %}
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Metodo de valoracion de Inventario por Costo Promedio</h2>
+    
+{% endblock mensaje %}
+
+{% block contenido %}
+	<div class="container" >
+		<form method="POST" action="{% url 'contable:baseGuardarSalida' %}" >{% csrf_token %}
+
+
+			<div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading"> Salida de Producto</div>
+                            <div class="panel-wrapper collapse in" aria-expanded="true">
+                                <div class="panel-body">
+                                    <form action="#" class="form-horizontal form-bordered">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Detalle</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" name="detalle" value=""placeholder="small" class="form-control"> <span class="help-block"> Detalle del movimiento </span> </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Cantidad</label>
+                                                <div class="col-md-9">
+                                                    <input type="number" name="cantidad" step="1" placeholder="25" class="form-control"> <span class="help-block"> Cantidad de producto de salida </span> </div>
+                                            </div>
+                                            <br>
+
+              
+                                        </div>
+                                        <div class="form-actions">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-offset-3 col-md-9">
+                                                            <button class="btn btn-success"> <i class="fa fa-check"></i><input type="submit" class="btn btn-success" name="" value="Guardar"></button>
+                                                            
+                                              
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			
+
+
+
+
+
+		</form>
+	</div>
+{% endblock contenido %}

@@ -1,0 +1,128 @@
+
+{% extends "Shared/shared3.html" %}
+{% load staticfiles %}
+
+{% block mensaje %}
+
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Planilla de Pago</h2>
+    
+{% endblock mensaje %}
+
+{% block header %}
+{% endblock header %}
+ {% block contenido %}
+
+ 
+    
+   
+    <div class="divider"></div>
+  
+                    <table class="table table-bordered" >
+
+                    <thead>
+
+                    <tr class="info">
+                        <th data-field="Idempleado">ID</th>
+                        <th data-field="nombre">Nombre</th>
+                        <th data-field="apellidos">Apellidos</th>
+                        <th data-field="cargo">Cargo</th>
+                        <th data-field="SalarioNominal">Salario Nominal</th>
+                        <th data-field="SalarioReal">Salario Real</th>
+                      
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: white">
+                            <td>{{empleado.id}}</td>
+                            <td>{{empleado.nombres}}</td>
+                            <td>{{empleado.apellidos}}</td>
+                            <td>{{empleado.puesto.nombre}}</td>
+                            <td>${{empleado.puesto.get_salario_nominal|floatformat:"2"}}</td>
+                            <td>${{empleado.puesto.get_salario_real|floatformat:"2"}}</td>
+
+                           
+                            
+                        </tr>
+                    
+                    </tbody>
+                </table>
+                <h1>Detalles del Empleado</h1><br>
+
+	<table class="table table-bordered" style="background-color:white">
+    <tr>
+        <td>ID</td>
+        <td>{{ empleado.id }}</td>
+    </tr>
+    <tr>
+        <td>Nombres</td>
+        <td>{{ empleado.nombres }}</td>
+    </tr>
+    <tr>
+        <td>Apellidos</td>
+        <td>{{ empleado.apellidos }}</td>
+    </tr>
+    <tr>
+        <td>Puesto</td>
+        <td>{{ empleado.puesto }}</td>
+    </tr>
+    <tr>
+        <td>Salario Nominal</td>
+        <td>${{ empleado.puesto.get_salario_nominal|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Salario Real</td>
+        <td>${{ empleado.puesto.get_salario_real|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Aguinaldo</td>
+        <td>${{ empleado.get_aguinaldo|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Aguinaldo semanal</td>
+        <td>${{ empleado.get_aguinaldo_semanal|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Vacaciones</td>
+        <td>${{ empleado.puesto.get_vacaciones|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Prestaciones</td>
+        <td>${{ empleado.puesto.get_prestaciones|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Vacaciones + Prestaciones</td>
+        <td>${{ empleado.puesto.get_cotizaciones_y_vacaciones|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Provisión semanal</td>
+        <td>${{ empleado.puesto.get_provision_semanal|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Cotización semanal</td>
+        <td>${{ empleado.puesto.get_cotizacion_semanal|floatformat:"2" }}</td>
+    </tr>
+    <tr style="color: #ee0500;">
+        <td>Salario semanal</td>
+        <td>${{ empleado.get_salario_semanal|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Factor de recargo</td>
+        <td>{{ empleado.get_factor_recargo|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Eficiencia</td>
+        <td>{{ empleado.eficiencia|floatformat:"2" }}</td>
+    </tr>
+    <tr>
+        <td>Factor de recargo por eficiencia</td>
+        <td>{{ empleado.get_factor_recargo_eficiencia|floatformat:"2" }}</td>
+    </tr>
+    <tr style="color: #ee0500;">
+        <td>Salario mensual</td>
+        <td>${{ empleado.get_salario_mensual|floatformat:"2" }}</td>
+    </tr>
+</table>
+
+                
+    {% endblock contenido %}

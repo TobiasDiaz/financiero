@@ -1,0 +1,165 @@
+{% extends "Shared/shared3.html" %}
+{% load staticfiles %}
+
+{% block titulo %}Catalogo de Cuentas{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1 class="page-title">Catalogo de Cuentas</h1>
+<h2 class="page-title">Procesadora de cacao</h2>
+
+{% if user.is_superuser %}
+<div class="col-lg-9 my-auto">
+            <ul class="list-inline banner-social-buttons">
+              <li class="list-inline-item">
+                <a href="/admin/contables/cuenta/add/" class="btn btn-block btn-info btn-rounded">
+                  <i class="fa fa-files-o"></i>
+                  <span class="network-name">Agregar Cuenta</span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="/admin/contables/cuenta/" class="btn btn-block btn-info btn-rounded">
+                  <i class="fa fa-folder-open-o"></i>
+                  <span class="network-name">Administrar Cuentas</span>
+                </a>
+              </li>
+            </ul>
+</div>
+
+{% else %}
+
+{% for grupo in grupo %}
+
+{% if grupo.user_id == user.id %}
+
+{% if grupo.name == "Contador" %}
+<div class="col-lg-9 my-auto">
+            <ul class="list-inline banner-social-buttons">
+              <li class="list-inline-item">
+                <a href="/admin/contables/cuenta/add/" class="btn btn-block btn-info btn-rounded">
+                  <i class="fa fa-files-o"></i>
+                  <span class="network-name">Agregar Cuenta</span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="/admin/contables/cuenta/" class="btn btn-block btn-info btn-rounded">
+                  <i class="fa fa-folder-open-o"></i>
+                  <span class="network-name">Administrar Cuentas</span>
+                </a>
+              </li>
+            </ul>
+</div>
+{% endif %}
+
+
+{% if grupo.name == "Gerente" %}
+{% endif %} 
+
+
+{% endif %} 
+
+{% endfor %} 
+
+{% endif %}
+  
+{% endblock mensaje %}
+{% block contenido %}
+
+        <div class="container">
+        <div class="intro-message">
+          
+
+                    
+          </div>
+  
+
+<section class="content-section-b">
+
+      <div class="container">
+      {% if tipoCuenta %}
+      {% for tipoCuenta in tipoCuenta %}
+
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-1"><h1 class="list-group-item active">{{tipoCuenta.codigo}}</h1></div>
+        <div class="col-sm-8"><h1 class="list-group-item active">{{tipoCuenta.nombre}}</h1></div>
+        <div class="col-sm-2"></div>
+        </div>
+        {% if rubro %}
+        {% for rubro in rubro %}
+        {% if rubro.tipo.codigo == tipoCuenta.codigo %}
+          <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-1"><h2 class="list-group-item list-group-item-success">{{rubro.codigo}}</h2></div>
+          <div class="col-sm-8"><h2 class="list-group-item list-group-item-success">{{rubro.nombre}}</h2></div>
+          <div class="col-sm-2"></div>
+          </div>
+        {% if cuentaMayor %}
+        {% for cuentaMayor in cuentaMayor %}
+        {% if cuentaMayor.rubro.id == rubro.id %}
+          <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-1"><h3 class="list-group-item list-group-item-warning">{{cuentaMayor.codigo}}</h3></div>
+          <div class="col-sm-8"><h3 class="list-group-item list-group-item-warning">{{cuentaMayor.nombre}}</h3></div>
+          <div class="col-sm-2"></div>
+          </div>
+        {% if cuenta %}
+        {% for cuenta in cuenta %}
+        {% if cuenta.cuentaMayor.id == cuentaMayor.id %}
+
+          <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-1"><h4 class="list-group-item">{{cuenta.codigo}}</h4></div>
+          <div class="col-sm-8"><h4 class="list-group-item">{{cuenta.nombre}}</h4></div>
+          <div class="col-sm-2"></div>
+          </div>
+          
+        {% endif %}
+          
+        {% endfor %}
+        {% else %}
+          <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-1"><h4 class="section-heading"></h4></div>
+          <div class="col-sm-8"><h4 class="section-heading">No hay subcuentas en la base de datos.</h4></div>
+          <div class="col-sm-2"></div>
+          </div>
+          
+        {% endif %}
+          
+        {% endif %}
+          
+        {% endfor %}
+        {% else %}
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-1"><h3 class="section-heading"></h3></div>
+        <div class="col-sm-8"><h3 class="section-heading">No hay cuentas mayor en la base de datos.</h3></div>
+        <div class="col-sm-2"></div>
+        </div>
+        {% endif %}
+        {% endif %}  
+        {% endfor %}
+        {% else %}
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-1"><h2 class="section-heading"></h2></div>
+        <div class="col-sm-8"><h2 class="section-heading">No hay rubros en la base de datos.</h2></div>
+        <div class="col-sm-2"></div>
+        </div>
+          
+        {% endif %}
+      {% endfor %}
+      {% else %}
+       <div class="row">
+       <div class="col-sm-2"></div>
+        <div class="col-sm-1"><h1 class="section-heading"></h1></div>
+        <div class="col-sm-8"><h1 class="section-heading">No hay cuentas en la base de datos.</h1></div>
+        <div class="col-sm-2"></div>
+
+      </div>
+      {% endif %}
+      <!-- /.container -->
+
+    </section>
+{% endblock contenido %}

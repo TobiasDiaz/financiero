@@ -1,0 +1,143 @@
+{% extends 'Shared/shared3.html' %}
+{% load staticfiles %}
+
+{% block titulo %}Libro Mayor{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Libro Mayor</h2>
+<h2 class="page-title">Del 1 al {{lday}} de {{mes}} del {{year}}</h2>
+
+<div class="col-15-lg-15 my-auto">
+            <ul class="list-inline banner-social-buttons">
+              <li class="list-inline-item">
+                <a href="{% url 'contable:cantidadCuenta' %}" class="btn btn-block btn-info btn-rounded">
+                  <i class="fa fa-exchange" aria-hidden="true"></i>
+                  <span class="network-name">Agregar Movimiento</span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="/admin/contables/cuenta/" class="btn btn-block btn-info btn-rounded">
+                  <i class="fa fa-folder-open-o"></i>
+                  <span class="network-name">Administrar Cuentas</span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="{% url 'contable:baseLibroMayorGuardar' %}" class="btn btn-block btn-info btn-rounded">
+                  <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                  <span class="network-name">Guardar Libro Mayor</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+  
+{% endblock mensaje %}
+
+{% block contenido %}
+
+<section class="content-section-b">
+
+      <div class="container">
+
+      {% if cuenta %}
+      {% for cuenta in cuenta %}
+        <table class="table table-bordered">
+        <thead>
+        <tr>
+        <th colspan="4" class="info">Codigo de cuenta: &nbsp;{{cuenta.codigo}}</th>
+        </tr>
+        </thead>
+        <thead>
+        <tr>
+        <th colspan="4" class="info">Nombre de la cuenta: &nbsp;{{cuenta.nombre}} </th>
+        </tr>
+        </thead>
+        <thead>
+        <tr class="info">
+        <th>Decripcion</th>
+        <th>Fecha de Movimiento Involucrados</th>
+        <th>Monto Debe</th>
+        <th>Monto Haber</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for movimiento in movimiento %}
+        {% if movimiento.cuenta.id == cuenta.id %}
+        <tr style="background-color:white;">
+          <td>{{movimiento.transaccion.descripcion}}</td>
+          <td>{{movimiento.fecha}}</td>
+          {% if movimiento.debe %}
+          <td>&nbsp;$&nbsp;{{movimiento.cantidad}}</td>
+          <td></td>
+          {% else %}
+          <td></td>
+          <td>&nbsp;$&nbsp;{{movimiento.cantidad}}</td>
+            
+          {% endif %}
+        </tr>        
+        {% endif %}
+          
+        {% endfor %}
+        <tr class="warning">
+        <td colspan="2">Sub-Total de la cuenta</td>
+        <td >&nbsp;$&nbsp;{{cuenta.montoDebe}}</td>
+        <td >&nbsp;$&nbsp;{{cuenta.montoHaber}}</td> 
+        </tr>
+        <tr class="danger">
+        <td colspan="2">Total de la cuenta</td>
+        <td  colspan="2">&nbsp;$&nbsp;{{cuenta.totalCuenta}}</td>
+        </tr>
+        
+        </tbody>
+        </table>
+        
+      {% endfor %}
+
+      {% else %}
+        <table class="table table-bordered">
+        <thead>
+        <tr>
+        <th class="info">No hay cuentaes en la base.</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        </table>
+
+        
+      {% endif %}
+
+        
+
+
+
+       </div>
+     
+
+    </section>
+
+
+<div class="row text-center" >
+  <div class="col-lg-12">
+    <ul class="pagination">
+        {% if cuenta.has_previous %}
+        <li><a href="?page={{ cuenta.previous_page_number }}&#cuenta">Anterior</a></li>
+        {% endif %}
+        {% for pg in cuenta.paginator.page_range %}
+          {% if cuenta.number == pg %}
+            <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+            {% else %}
+            <li><a href="?page={{ pg }}&#cuenta">{{ pg }}</a></li>
+            {% endif %}
+        {% endfor%}
+        {% if cuenta.has_next %}
+        <li><a href="?page={{ cuenta.next_page_number }}&#cuenta">Siguiente</a></li>
+        {% endif %}
+        </ul>
+    </div>
+</div>
+  
+
+	
+{% endblock contenido %}

@@ -1,0 +1,196 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>{% block titulo %}SIC115{% endblock titulo %}</title>
+
+         <!-- Bootstrap CSS CDN -->
+            {% block CSS %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-sidebar/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/landing-page.css' %}">
+    <style type="text/css">
+        #target {
+            width: 400px;
+            height: 400px;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        th {
+            background: #2e4053  ;
+            border: 1px solid #2e4053;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: left;
+        }
+        td {
+            border: 1px solid #2e4053 ;
+            text-align: left;
+            font-weight: normal;
+            color: #000000;
+        }
+        tr:nth-child(odd) {
+            background: #ffffff;
+        }
+        tbody tr:nth-child(odd) th {
+            background: #ffffff;
+            color: #000000;
+        }
+        tr:nth-child(even) {
+            background:#E0ECF8;
+        }
+        tbody tr:nth-child(even) th {
+            background: #E0ECF8;
+            color: #000000;
+        }
+    </style>
+    {% block JSGrafico %}
+        
+    {% endblock JSGrafico %} 
+    {% block jsTabla %}
+         
+     {% endblock jsTabla %} 
+    {% endblock CSS %}
+
+    {% block JS %}
+
+    <script type="text/javascript" src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendor/popper/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      
+    {% endblock JS %}
+        
+        <!-- Our Custom CSS -->
+       
+    </head>
+    <body {% block estiloAA %}class="intro-header"{% endblock estiloAA %}>
+               
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+                       <nav id="sidebar">
+                
+
+                <ul class="list-unstyled components" class="nav nav-pills nav-stacked" data-spy="affix">
+                    
+                    <li class="active">
+                        <a href="/" style="color:black;background: white;text-decoration: none">SISTEMAS CONTABLES</a>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="color:white;background:#2E4053">Estados FInancieros</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu" >
+                            <li><a href="{% url 'contable:baseBalanceComprobacion' %}" style="color:white;">Balance de comprobacion</a></li>
+                            <li><a href="{% url 'contable:estadoDeResultado' %}" style="color:white;">Estado de Resultado </a></li>
+                            <li><a href="{% url 'contable:estadoDeCapital' %}" style="color:white;">Estado de capital</a></li>
+                            <li><a href="{% url 'contable:balanceGeneral' %}" style="color:white;">Balance General</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{% url 'contable:baseLibroMayor' %}" style="color:white;">Libro Mayor</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contable:baseLibroDiario' %}" style="color:white;">Libro Diario</a>
+                        
+                    </li>
+                    <li>
+                        <a href="{% url 'contable:ordenes' %}" style="color:white;">Ordenes de fabricacion</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contable:produccion' %}" style="color:white;" >Costeo</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contable:basePlanilla' %}" style="color:white;" >Planilla de pagos</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contable:baseCatalogoCuenta' %}" style="color:white;">Catalogo de cuentas</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contable:baseInventarioMateriaPrima' %}" style="color:white;">Inventario de materia prima</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contable:baseAjustesFinancieros' %}" style="color:white;">Ajustes financieros</a>
+                    </li>
+                    <li>
+                        <a href="#" style="color:white;">Transacciones</a>
+                    </li>
+                </ul>
+
+                
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-align-left"></i>
+                                <span>Desplegar</span>
+                            </button>
+                        </div>
+
+                        
+                    </div>
+
+                </nav>
+                
+                {% block contenido %}
+                  
+                {% block TituloPagina %}
+                <div class="container">
+                <div class="intro-message">
+          
+                <h1>Sistema Contable</h1>
+                <h3>Fabrica de Cepillos El Salvador</h3></div></div>
+                {% endblock TituloPagina %}
+                
+                {% endblock contenido %}
+
+
+    <footer>
+      <div class="container">
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <a href="#">Home</a>
+          </li>
+          <li class="footer-menu-divider list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#about">About</a>
+          </li>
+          <li class="footer-menu-divider list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#services">Services</a>
+          </li>
+          <li class="footer-menu-divider list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#contact">Contact</a>
+          </li>
+        </ul>
+        <p class="copyright text-muted small">Copyright &copy; Your Company 2017. All Rights Reserved</p>
+      </div>
+    </footer>
+
+        <!-- jQuery CDN -->
+         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+         <!-- Bootstrap Js CDN -->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+         <script type="text/javascript">
+             $(document).ready(function () {
+                 $('#sidebarCollapse').on('click', function () {
+                     $('#sidebar').toggleClass('active');
+                 });
+             });
+         </script>
+
+         
+    </body>
+</html>

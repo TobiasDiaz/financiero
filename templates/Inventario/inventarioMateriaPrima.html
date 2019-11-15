@@ -1,0 +1,158 @@
+{% extends "Shared/shared3.html" %}
+{% load staticfiles %}
+{% block titulo %}Inventario de Materia Prima{% endblock titulo %}
+
+{% block mensaje %}
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Inventario de Materia Prima</h2>
+<h2 class="page-title">Metodo de valoracion de Inventario por Costo Promedio</h2>
+
+{% if user.is_superuser %}
+<a class="btn btn-primary btn-lg" href="{% url 'contable:baseEntradaProducto' %}">Agregar Entrada</a>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:baseSalidaProducto' %}">Salida</a>
+
+{% else %}
+
+{% for grupo in grupo %}
+
+{% if grupo.user_id == user.id %}
+
+{% if grupo.name == "Contador" %}
+<a class="btn btn-primary btn-lg" href="{% url 'contable:baseEntradaProducto' %}">Agregar Entrada</a>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:baseSalidaProducto' %}">Salida</a>
+{% endif %}
+
+
+{% if grupo.name == "Gerente" %}
+<a class="btn btn-primary btn-lg" href="/admin/contables/movimientoinventario/">Modificar</a>
+{% endif %} 
+
+                             
+{% endif %} 
+
+{% endfor %} 
+
+{% endif %}
+
+
+    
+{% endblock mensaje %}
+
+{% block contenido %}
+
+    <div class="container">
+    </div>
+    <div class="dropdown-divider">
+    	
+    </div>
+  {% if  movimientos %}
+  	
+  
+    <table class="table table-bordered">
+    	
+    	<thead>
+    		<tr class="info">
+    			<th>ID</th>
+    			<th>fecha</th>
+    			<th>Detalle</th>
+    			<th>Cantidad</th>
+    			<th>P.U.</th>
+    			<th>Total</th>
+    			<th>Cantidad</th>
+    			<th>P.U.</th>
+    			<th>Total</th>
+    			<th>Cantidad</th>
+    			<th>P.U.</th>
+    			<th>Total</th>
+
+    		</tr>
+
+    	</thead>
+    	<tbody>
+    		{% for movimiento in movimientos %}
+    			
+    		
+    		<tr style="background-color: white">
+    			<td>{{movimiento.idAux}}</td>
+    			<td>{{movimiento.fecha}}</td>
+    			<td>{{movimiento.detalle}}</td>
+    			<td>{{movimiento.eCantidad}}</td>
+    			<td>${{movimiento.ePUnitario|floatformat:"2"}}</td>
+    			<td>${{movimiento.eTotal|floatformat:"2"}}</td>
+    			<td>{{movimiento.sCantidad}}</td>
+    			<td>${{movimiento.sPUnitario|floatformat:"2"}}</td>
+    			<td>${{movimiento.sTotal|floatformat:"2"}}</td>
+    			<td>{{movimiento.saldoCantidad}}</td>
+    			<td>${{movimiento.saldoPUnitario|floatformat:"2"}}</td>
+    			<td>${{movimiento.saldoTotal|floatformat:"2"}}</td>
+    		</tr>
+    		{% endfor %}
+    	</tbody>
+    </table>
+    {% else %}
+    <h3>No hay movimientos</h3>
+    {% endif %}
+    <br><br><br>
+  		<div id="container"></div>
+  		<script type="text/javascript">
+  		Highcharts.chart('container', {
+
+    title: {
+        text: 'Variacion de costo Unitario'
+    },
+
+    subtitle: {
+        text: 'movimientos del periodo'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Precio Unitario ($)'
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 1
+        }
+    },
+
+    series: [{
+        name: 'Costo Unitario',
+        data: [{% for movimiento in movimientos %}
+        	{{movimiento.saldoPUnitario}},
+        {% endfor %}]
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+  		</script>  
+    
+{% endblock contenido %}
+
+{% block JSGrafico %}
+    <script src="{% static 'js/highcharts.js' %}"></script>
+    <script src="{% static 'js/exporting.js'%}"></script>
+{% endblock JSGrafico %}

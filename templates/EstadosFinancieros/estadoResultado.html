@@ -1,0 +1,135 @@
+{% extends "Shared/shared3.html" %}
+{% load staticfiles %}
+{% load mathfilters %}
+
+{% block titulo %}Estado de Resultado{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1 class="page-title">Procesadora de Cacao</h1>
+<h2 class="page-title">Estado de Resultado</h2>
+<h2 class="page-title">Del 1 al {{lday}} de {{mes}} del {{year}}</h2>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:estadoDeResultado_ingreso' %}">Guardar Estado de Resultado Ingresos</a>
+<br>
+<br>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:estadoDeResultado_egreso' %}">Guardar Estado de Resultado Egresos</a>
+<br><br>
+<a class="btn btn-primary btn-lg" href="{% url 'contable:estadoDeResultado_total' %}">Guardar Estado de Resultado Capital Social</a>
+  
+{% endblock mensaje %}
+
+
+
+{% block contenido %}
+<section class="content-section-b">
+
+      <div class="container">
+
+      {% if cuentasA %}
+        <table class="table table-bordered">
+        <thead>
+        <tr>
+        <th colspan="2" class="info">Ingresos</th>
+        </tr>
+        <tr>
+        <th class="info">Cuenta</th>
+        <th class="info">Monto</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cuentasA in cuentasA %}
+        <tr style="background-color: white">
+          <td>{{cuentasA.cuenta.nombre}}</td>
+          <td>&nbsp;$&nbsp;{{cuentasA.cuenta.totalCuenta|floatformat:2}}</td>
+        </tr>
+          
+        {% endfor %}
+        <tr class="danger">
+        <td >Total de Ingresos</td>
+        <td >&nbsp;$&nbsp;{{totalI|floatformat:2}}</td>
+        </tr>   
+        </tbody>
+        </table>
+      {% else %}
+        <table class="table table-bordered">
+        <thead>
+        <tr>
+        <th colspan="2" class="info">No hay ingresos actualmente.</th>
+        </tr>
+        </thead>
+        <tbody> 
+        <tr class="danger">
+        <td >Total de Ingresos</td>
+        <td >&nbsp;$&nbsp;{{totalI|floatformat:2}}</td>
+        </tr>  
+        </tbody>
+        </table>
+        
+      {% endif %}
+
+      <br>
+      <br>
+      <br>
+
+      {% if cuentasD %}
+        <table class="table table-bordered">
+        <thead>
+        <tr>
+        <th colspan="2" class="info">Egresos</th>
+        </tr>
+        <tr>
+        <th class="info">Cuenta</th>
+        <th class="info">Monto</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cuentasD in cuentasD %}
+        <tr style="background-color: white">
+          <td>{{cuentasD.cuenta.nombre}}</td>
+          <td>(&nbsp;$&nbsp;{{cuentasD.cuenta.totalCuenta|floatformat:2}}&nbsp;)</td>
+        </tr>
+          
+        {% endfor %}
+        <tr class="danger">
+        <td >Total de Egresos</td>
+        <td >(&nbsp;$&nbsp;{{totalE|floatformat:2}}&nbsp;)</td>
+        </tr>   
+        </tbody>
+        </table>
+      {% else %}
+        <table class="table table-bordered">
+        <thead>
+        <tr>
+        <th colspan="2" class="info">No hay egresos actualmente.</th>
+        </tr>
+        </thead>
+        <tbody> 
+        <tr class="danger">
+        <td >Total de Egresos</td>
+        <td >(&nbsp;$&nbsp;{{totalE|floatformat:2}}&nbsp;)</td>
+        </tr>  
+        </tbody>
+        </table>
+        
+      {% endif %}
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+        <th colspan="2" class="info"></th>
+        </tr>
+        </thead>
+        <tbody> 
+        <tr class="warning">
+        <td >{{utilidad.nombre}}</td>
+        <td >&nbsp;$&nbsp;{{utilidad.totalCuenta|floatformat:2}}&nbsp;</td>
+        </tr>  
+        </tbody>
+        </table>
+
+       </div>
+     
+
+    </section>
+	
+{% endblock contenido %}

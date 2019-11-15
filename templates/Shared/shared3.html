@@ -1,0 +1,333 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "table2/" %}plugins/images/favicon.png">
+    <title>{% block titulo %}{% endblock titulo %}</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "table2/" %}bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="{% static "table2/" %}css/animate.css" rel="stylesheet">
+    <!-- Menu CSS -->
+    <link href="{% static "table2/" %}plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!--My admin Custom CSS -->
+    <link href="{% static "table2/" %}plugins/bower_components/owl.carousel/owl.carousel.min.css" rel="stylesheet" type="text/css" />
+    <link href="{% static "table2/" %}plugins/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet" type="text/css" />
+    <!-- animation CSS -->
+    <link href="{% static "table2/" %}css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static "table2/" %}css/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="{% static "table2/" %}css/colors/purple.css" id="theme" rel="stylesheet">
+
+    {% block JSGrafico %}
+        
+    {% endblock JSGrafico %} 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <div class="top-left-part">
+                    <!-- Logo -->
+                    <a href="/">Sistema Contable</a>
+                </div>
+                <!-- /Logo -->
+                <!-- Search input and Toggle icon -->
+                <ul class="nav navbar-top-links navbar-left">
+                    <li><a href="javascript:void(0)" class="open-close waves-effect waves-light visible-xs"><i class="ti-close ti-menu"></i></a></li>
+                    
+                </ul>
+                <ul class="nav navbar-top-links navbar-right pull-right">
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> 
+                        {% if user.is_superuser %}
+                        <img src="{% static "table2/" %}plugins/images/users/administrador.jpg" alt="user-img" width="36" class="img-circle">
+                        {% else %}
+                            {% for grupo in grupo %}
+                            {% if grupo.user_id == user.id %}
+                            {% if grupo.name == "Contador" %}
+                            <img src="{% static "table2/" %}plugins/images/users/contador3.png" alt="user-img" width="36" class="img-circle">                                
+                            {% endif %}
+                            {% if grupo.name == "Gerente" %}
+                            <img src="{% static "table2/" %}plugins/images/users/gerente2.png" alt="user-img" width="36" class="img-circle">                                                        
+                            {% endif %}                               
+                            {% endif %}                                
+                            {% endfor %} 
+                        {% endif %}
+                        <b class="hidden-xs">{{user.username}}</b><span class="caret"></span> </a>
+                        <ul class="dropdown-menu dropdown-user animated flipInY">
+                            <li>
+                                <div class="dw-user-box">
+                                    <div class="u-img">
+                                    {% if user.is_superuser %}
+                                    <img src="{% static "table2/" %}plugins/images/users/administrador.jpg" alt="user" />
+                                    {% else %}
+                            {% for grupo in grupo %}
+                            {% if grupo.user_id == user.id %} 
+                            {% if grupo.name == "Contador" %}
+                            <img src="{% static "table2/" %}plugins/images/users/contador3.png" alt="user" />                              
+                            {% endif %}
+                            {% if grupo.name == "Gerente" %}
+                            <img src="{% static "table2/" %}plugins/images/users/gerente2.png" alt="user" />                              
+                            {% endif %}                               
+                            {% endif %}                                
+                            {% endfor %} 
+                                    {% endif %}
+                                    </div>
+                                    
+                                        
+                                    
+                                    <div class="u-text">
+                                        <h4>{{user.username|capfirst}}</h4>
+                                        <p class="text-muted"><h6>{{user.email}}</h6>{% if user.is_superuser %}</p><a href="/admin/auth/user/{{user.id}}/change/" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a>{% endif %}</div>
+
+                                </div>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#"><i class="ti-user"></i> Nombres:<br>{{user.first_name}}</a></li>
+                            <li><a href="#"><i class="ti-user"></i> Apellido:<br>{{user.last_name}}</a></li>
+                            <li><a href="#"><i class="ti-wallet"></i> Ultima conexion:<br>{{user.last_login}}</a></li>
+                            {% if user.is_superuser %}
+                                
+                            
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/admin/auth/user/{{user.id}}/change/"><i class="ti-settings"></i> Configuracion de Cuenta</a></li>
+                            {% endif %}
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/cerrar/"><i class="fa fa-power-off"></i> Salir</a></li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
+                </ul>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- End Top Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Menu</span></h3>
+                </div>
+                <ul class="nav" id="side-menu">
+                    <li><a href="inbox.html" class="waves-effect"><i class="mdi mdi-apps fa-fw"></i> <span class="hide-menu">Contabilidad General<span class="fa arrow"></span></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="{% url 'contable:baseCatalogoCuenta' %}"><i class="ti-book fa-fw"></i><span class="hide-menu">Catalogo de Cuentas</span></a></li>
+                            <li><a href="javascript:void(0)" class="waves-effect"><i class="ti-agenda fa-fw"></i><span class="hide-menu">Libros</span><span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li> <a href="{% url 'contable:baseLibroDiario' %}"><i class="ti-book fa-fw"></i><span class="hide-menu">Libro Diario</span></a></li>
+                                    <li> <a href="{% url 'contable:baseLibroMayor' %}"><i class="ti-book fa-fw"></i><span class="hide-menu">Libro Mayor</span></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="javascript:void(0)" class="waves-effect"><i class="fa fa-archive fa-fw"></i><span class="hide-menu">Estados Financieros</span><span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li> <a href="{% url 'contable:baseBalanceComprobacion' %}"><i class="ti-receipt fa-fw"></i><span class="hide-menu">Balance Comprobacion</span></a></li>
+                                    <li> <a href="{% url 'contable:estadoDeResultado' %}"><i class="ti-receipt fa-fw"></i><span class="hide-menu">Estado Resultado</span></a></li>
+                                    <li > <a href="{% url 'contable:estadoDeCapital' %}"><i class="ti-receipt fa-fw"></i><span class="hide-menu">Estado Capital</span></a></li>
+                                    <li> <a href="{% url 'contable:balanceGeneral' %}"><i class="ti-receipt fa-fw"></i><span class="hide-menu">Balance General</span></a></li>
+                                </ul>
+                            </li>
+                            {% if ciclo.cantidad == 0 %}
+                            {% else %}
+                                
+                            
+                            <li><a href="javascript:void(0)" class="waves-effect"><i class="fa fa-archive fa-fw"></i><span class="hide-menu">Estados Financieros Ajustados</span><span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li> <a href="inbox.html"><i class="ti-receipt fa-fw"></i><span class="hide-menu">Balance Comprobacion Ajustado</span></a></li>
+                                    <li> <a href="inbox-detail.html"><i class="ti-receipt fa-fw"></i><span class="hide-menu">Estado Resultado Ajustado</span></a></li>
+                                    <li> <a href="compose.html"><i class="ti-receipt fa-fw"></i><span class="hide-menu">Estado Capital Ajustado</span></a></li>
+                                    <li> <a href="compose.html"><i class="ti-receipt fa-fw"></i><span class="hide-menu">Balance General Ajustado</span></a></li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                            
+                        </ul>
+                    </li>
+                    <li><a href="inbox.html" class="waves-effect"><i class="mdi mdi-apps fa-fw"></i> <span class="hide-menu">Contabilidad de Costo<span class="fa arrow"></span></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="{% url 'contable:ordenes' %}"><i class="ti-briefcase fa-fw"></i><span class="hide-menu">Ordenes de Fabricacion</span></a></li>
+                            <li><a href="{% url 'contable:produccion' %}"><i class="ti-shopping-cart-full fa-fw"></i><span class="hide-menu">Costeo</span></a></li>
+                            <li><a href="{% url 'contable:basePlanilla' %}"><i class="ti-face-smile fa-fw"></i><span class="hide-menu">Planilla de Pagos</span></a></li>
+                            <li><a href="{% url 'contable:baseInventarioMateriaPrima' %}"><i class="ti-stats-up fa-fw"></i><span class="hide-menu">Inventario de Materia Prima</span></a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="devider"></li>
+                    <li> <a href="/admin" class="waves-effect"><i  class="mdi mdi-settings fa-fw"></i> <span class="hide-menu">Ajustes del Sistema</span></a> </li>
+                    <li><a href="/cerrar/" class="waves-effect"><i class="mdi mdi-logout fa-fw"></i> <span class="hide-menu">Cerrar Sesion</span></a></li>
+                    <li class="devider"></li>
+                    <li><a href="{% url 'contable:baseContactenos' %}" class="waves-effect"><i class="fa fa-circle-o text-danger"></i> <span class="hide-menu">Contactenos</span></a></li>
+                    <li><a href="{% url 'contable:baseServicios' %}" class="waves-effect"><i class="fa fa-circle-o text-info"></i> <span class="hide-menu">Servicios</span></a></li>
+                    <li><a href="{% url 'contable:ayuda' %}" class="waves-effect"><i class="fa fa-circle-o text-success"></i> <span class="hide-menu">Ayuda</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title" >
+                    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12" style="margin-left: 0px;">
+                    {% block mensaje %}
+                        <h1 class="page-title">Procesadora de Cacao</h1>
+                        <h4 class="page-title">Bienvenido Al Sistema Contable</h4>{% endblock mensaje %} </div>
+                    
+                        
+            
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- .row -->
+                
+                <!-- /.row -->
+                <!-- .row -->
+                <div class="row">
+                {% block contenido %}
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Procesadora de Cacao
+                            </div>
+                            <div class="panel-wrapper p-b-10 collapse in">
+                                <div id="owl-demo" class="owl-carousel owl-theme">
+                                    <div class="item"><img src="{% static "table2/" %}plugins/images/heading-bg/fabri005.jpg" alt="Owl Image"></div>
+                                    <div class="item"><img src="{% static "table2/" %}plugins/images/heading-bg/fabri006.jpg" alt="Owl Image"></div>
+                                    <div class="item"><img src="{% static "table2/" %}plugins/images/heading-bg/fabri007.jpg" alt="Owl Image"></div>
+                                    <div class="item"><img src="{% static "table2/" %}plugins/images/heading-bg/fabri008.jpg" alt="Owl Image"></div>         
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock contenido %}
+                </div>
+                <!-- /.row -->
+                <!-- .row -->
+                
+                <!-- /.row -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <div class="right-sidebar">
+                    <div class="slimscrollright">
+                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="r-panel-body">
+                            <ul id="themecolors" class="m-t-20">
+                                <li><b>With Light sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-theme="default" class="default-theme">1</a></li>
+                                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
+                                <li><a href="javascript:void(0)" data-theme="gray" class="yellow-theme">3</a></li>
+                                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme">4</a></li>
+                                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
+                                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
+                                <li><b>With Dark sidebar</b></li>
+                                <br/>
+                                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
+                                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
+                                <li><a href="javascript:void(0)" data-theme="gray-dark" class="yellow-dark-theme">9</a></li>
+                                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme working">10</a></li>
+                                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
+                                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme">12</a></li>
+                            </ul>
+                            <ul class="m-t-20 all-demos">
+                                <li><b>Choose other demos</b></li>
+                            </ul>
+                            <ul class="m-t-20 chatonline">
+                                <li><b>Chat option</b></li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/varun.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/genu.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/ritesh.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/arijit.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/govinda.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/hritik.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/john.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/pawandeep.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- /.container-fluid -->
+            <footer class="footer text-center"> 2019 &copy; Sistema-Contables-ProcesadoraDeCacao-UES </footer>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="{% static "table2/" %}plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "table2/" %}bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="{% static "table2/" %}plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="{% static "table2/" %}js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="{% static "table2/" %}js/waves.js"></script>
+    <!-- jQuery for carousel -->
+    <script src="{% static "table2/" %}plugins/bower_components/owl.carousel/owl.carousel.min.js"></script>
+    <script src="{% static "table2/" %}plugins/bower_components/owl.carousel/owl.custom.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static "table2/" %}js/custom.min.js"></script>
+    <!--Style Switcher -->
+    <script src="{% static "table2/" %}plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+
+    <script src="{% static 'js/highcharts.js' %}"></script>
+<script src="{% static 'js/exporting.js'%}"></script>
+</body>
+
+</html>

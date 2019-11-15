@@ -1,0 +1,68 @@
+{% extends 'Shared/shared2.html' %}
+{% load staticfiles %}
+
+{% block titulo %}Libro Diario Guardar{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1>Libro diario</h1>
+<h2>Procesadora de Cacao</h2>
+<h2>Del 1 al {{lday}} de {{mes}} del {{year}}</h2>
+<br><br><br>
+  
+{% endblock mensaje %}
+{% block contenido %}
+  
+
+
+{% block tituloTabla %}
+<th>Empleado realizo la transaccion</th>
+<th>Cantidad</th>
+<th>Cuenta Involucrada</th>
+<th>Fecha</th>
+<th>Tipo</th>
+<th># Transaccion</th>
+  
+{% endblock tituloTabla %}
+
+{% block pieTabla %}
+
+<th>Empleado realizo la transaccion</th>
+<th>Cantidad</th>
+<th>Cuenta Involucrada</th>
+<th>Fecha</th>
+<th>Tipo</th>
+<th># Transaccion</th>
+  
+{% endblock pieTabla %}
+
+{% block filaTabla %}
+
+{% if movimiento %}
+    {% for movimiento in movimiento %}
+
+      <tr>
+        <td>{{movimiento.empleado}}</td>
+        <td>{{movimiento.cantidad}}</td>
+        <td>{{movimiento.cuenta}}</td>
+        <td>{{movimiento.fecha}}</td>
+        <td>
+          {% if movimiento.debe %}
+          Debe
+          {% else %}
+          Haber
+            
+          {% endif %}
+        </td>
+        <td>{{movimiento.transaccion.codigo}}</td>
+      </tr>
+      
+    {% endfor %}
+
+    {% else %}
+    <td colspan="5">No hay transacciones en la base</td>
+    {% endif %}
+  
+{% endblock filaTabla %}
+
+{% endblock contenido %}

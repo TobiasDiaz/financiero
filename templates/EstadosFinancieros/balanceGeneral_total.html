@@ -1,0 +1,51 @@
+{% extends 'Shared/shared2.html' %}
+{% load staticfiles %}
+
+{% block titulo %}Balance General Capital Guardar{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1>Balance General Capital</h1>
+<h2>Procesadora de Cacao</h2>
+<h2>Del 1 al {{lday}} de {{mes}} del {{year}}</h2>
+<br><br><br>
+  
+{% endblock mensaje %}
+{% block contenido %}
+  
+
+
+{% block tituloTabla %}
+<td>Cuenta</td>
+<td>Total</td>
+
+
+  
+{% endblock tituloTabla %}
+
+{% block pieTabla %}
+
+<td>Cuenta</td>
+<td>Total</td>
+
+  
+{% endblock pieTabla %}
+
+{% block filaTabla %}
+
+<tr>
+            <td>{{capital.nombre}}</td>
+            <td>&nbsp;$&nbsp;{{capital.totalCuenta|floatformat:2}}</td>
+        </tr>
+        <tr style="background-color:white">
+            <td>Utilidades Retenidas del Periodo (&nbsp;Politica de {{por}}%&nbsp;)</td>
+            <td>&nbsp;$&nbsp;{{utilidadR|floatformat:2}}</td>
+        </tr>
+        <tr>
+        <td style="background-color: #dba80f;">Total de Capital</td>
+        <td style="background-color: #dba80f;">&nbsp;$&nbsp;{{totalK|floatformat:2}}&nbsp;</td>
+        </tr>
+
+{% endblock filaTabla %}
+
+{% endblock contenido %}

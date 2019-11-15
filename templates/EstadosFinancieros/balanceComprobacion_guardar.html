@@ -1,0 +1,75 @@
+{% extends 'Shared/shared2.html' %}
+{% load staticfiles %}
+
+{% block titulo %}Balance de Comprobacion Guardar{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1>Balance de Comprobacion</h1>
+<h2>Procesadora de Cacao</h2>
+<h2>Del 1 al {{lday}} de {{mes}} del {{year}}</h2>
+<br><br><br>
+  
+{% endblock mensaje %}
+{% block contenido %}
+  
+
+
+{% block tituloTabla %}
+
+<th class="info">Cuenta</th>
+        <th class="info">Debe</th>
+        <th class="info">Haber</th>
+  
+{% endblock tituloTabla %}
+
+{% block pieTabla %}
+
+<th class="info">Cuenta</th>
+        <th class="info">Debe</th>
+        <th class="info">Haber</th>
+  
+{% endblock pieTabla %}
+
+{% block filaTabla %}
+
+{% if cuenta %}
+    {% for cuenta in cuenta %}
+      <tr >
+        <td>{{cuenta.cuenta}}</td>
+        <td>
+          {% if cuenta.debe %}
+          &nbsp;$&nbsp;{{cuenta.cuenta.totalCuenta|floatformat:2}}
+            
+          {% endif %}
+          
+
+        </td>
+        <td>
+          {% if cuenta.debe %}
+          {% else %}
+          &nbsp;$&nbsp;{{cuenta.cuenta.totalCuenta|floatformat:2}}
+            
+          {% endif %}
+        </td>
+      </tr>     
+    {% endfor %}
+      <tr>
+        <td class="danger">Total</td>
+        <td class="danger">
+        {% for totalDebe in totalDebe %}
+        &nbsp;$&nbsp;{{totalDebe.MontoDebeTotal|floatformat:2}}</td>  
+        {% endfor %}
+        <td class="danger">
+        {% for totalHaber in totalHaber %}
+        &nbsp;$&nbsp;{{totalHaber.MontoHaberTotal|floatformat:2}}</td>  
+        {% endfor %}
+      </tr>
+    {% else %}
+    <td colspan="3" class="danger">No hay transacciones realizadas</td>
+      
+    {% endif %}     
+
+{% endblock filaTabla %}
+
+{% endblock contenido %}

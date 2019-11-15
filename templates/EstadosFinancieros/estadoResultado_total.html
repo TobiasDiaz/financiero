@@ -1,0 +1,41 @@
+{% extends 'Shared/shared2.html' %}
+{% load staticfiles %}
+
+{% block titulo %}Estado de Resultado Total Guardar{% endblock titulo %}
+
+{% block mensaje %}
+
+<h1>Estado de Resultado Total</h1>
+<h2>Procesadora de Cacao</h2>
+<h2>Del 1 al {{lday}} de {{mes}} del {{year}}</h2>
+<br><br><br>
+  
+{% endblock mensaje %}
+{% block contenido %}
+  
+
+
+{% block tituloTabla %}
+<td>Cuenta</td>
+<td>Total</td>
+
+
+  
+{% endblock tituloTabla %}
+
+{% block pieTabla %}
+
+<td>Cuenta</td>
+<td>Total</td>
+
+  
+{% endblock pieTabla %}
+
+{% block filaTabla %}
+<tr class="warning">
+        <td >{{utilidad.nombre}}</td>
+        <td >&nbsp;$&nbsp;{{utilidad.totalCuenta|floatformat:2}}&nbsp;</td>
+        </tr>  
+{% endblock filaTabla %}
+
+{% endblock contenido %}
